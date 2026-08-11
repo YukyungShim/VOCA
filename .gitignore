@@ -1,0 +1,37 @@
+# Miscellaneous
+*.log
+*.sql
+*.sqlite
+*.tmp
+*.temp
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# Flutter / Dart build artifacts
+**/build/
+**/.dart_tool/
+**/.pub-cache/
+**/.pub/
+**/.packages
+**/.flutter-plugins
+**/.flutter-plugins-dependencies
+**/pubspec.lock
+
+# IDE files
+**/.idea/
+**/.vscode/
+*.iml
+*.ipr
+*.iws
+
+# Sensitive & Local files
+*.env
+*.env.local

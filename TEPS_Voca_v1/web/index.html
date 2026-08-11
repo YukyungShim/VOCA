@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>TEPS VOCA - iPhone 16 Pro Preview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+    body {
+      background-color: #090d16;
+      background-image: radial-gradient(circle at 50% 30%, #1e293b 0%, #090d16 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow: hidden;
+      color: #0f172a;
+    }
+
+    /* iPhone 16 Pro Outer Frame */
+    .phone-wrapper {
+      position: relative;
+      width: 393px;
+      height: 852px;
+      background: #111827;
+      border-radius: 54px;
+      padding: 12px;
+      box-shadow: 
+        0 0 0 4px #334155,
+        0 25px 60px -15px rgba(0, 0, 0, 0.7),
+        inset 0 0 0 2px rgba(255, 255, 255, 0.1);
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Side Hardware Buttons Simulation */
+    .phone-wrapper::before {
+      content: '';
+      position: absolute;
+      left: -6px;
+      top: 140px;
+      width: 4px;
+      height: 60px;
+      background: #475569;
+      border-radius: 4px 0 0 4px;
+      box-shadow: 0 80px 0 #475569, 0 140px 0 #475569;
+    }
+    .phone-wrapper::after {
+      content: '';
+      position: absolute;
+      right: -6px;
+      top: 190px;
+      width: 4px;
+      height: 90px;
+      background: #475569;
+      border-radius: 0 4px 4px 0;
+    }
+
+    /* Inner Screen Container */
+    .device-screen {
+      width: 100%;
+      height: 100%;
+      background: #ffffff;
+      border-radius: 44px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Dynamic Island Notch */
+    .dynamic-island {
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 32px;
+      background: #000000;
+      border-radius: 20px;
+      z-index: 99;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 12px;
+    }
+    .camera-lens {
+      width: 12px;
+      height: 12px;
+      background: #1e1e1e;
+      border-radius: 50%;
+      box-shadow: inset 0 0 3px #3b82f6;
+    }
+
+    /* Status Bar */
+    .status-bar {
+      height: 48px;
+      background: transparent;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      padding: 0 28px 6px 28px;
+      font-size: 14px;
+      font-weight: 700;
+      color: #0f172a;
+      z-index: 10;
+    }
+
+    /* Home Indicator Line */
+    .home-indicator {
+      position: absolute;
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 134px;
+      height: 5px;
+      background: #0f172a;
+      border-radius: 3px;
+      z-index: 90;
+    }
+
+    /* Screen Views */
+    .screen {
+      display: none;
+      flex: 1;
+      flex-direction: column;
+      height: calc(100% - 48px);
+      position: relative;
+      overflow: hidden;
+      padding-bottom: 20px;
+    }
+    .screen.active {
+      display: flex;
+    }
+
+    /* Screen 1: Splash Screen */
+    #splash-screen {
+      justify-content: center;
+      align-items: center;
+      background: #ffffff;
+      text-align: center;
+    }
+    .splash-logo-box {
+      width: 160px;
+      height: 160px;
+      background: #f0f2f5;
+      border-radius: 24px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 24px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+    }
+    .splash-logo-box img {
+      max-width: 80%;
+      max-height: 80%;
+      object-fit: contain;
+    }
+    .splash-title {
+      font-size: 26px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      color: #1e293b;
+      margin-bottom: 8px;
+    }
+    .splash-subtitle {
+      font-size: 14px;
+      color: #64748b;
+    }
+
+    /* Top App Header */
+    .app-header {
+      height: 54px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      border-bottom: 1px solid #f1f5f9;
+      background: #ffffff;
+      z-index: 5;
+    }
+    .header-btn {
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: #0f172a;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+    }
+    .header-btn:hover {
+      background: #f1f5f9;
+    }
+    .header-logo-container {
+      border: 1.5px solid #0f172a;
+      padding: 3px 16px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 36px;
+    }
+    .header-logo-container img {
+      height: 22px;
+      object-fit: contain;
+    }
+
+    /* Filter & Search Bar */
+    .filter-bar {
+      padding: 8px 16px;
+      display: flex;
+      gap: 8px;
+    }
+    .search-input-box {
+      flex: 1;
+      position: relative;
+    }
+    .search-input-box input {
+      width: 100%;
+      padding: 8px 12px 8px 36px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 14px;
+      outline: none;
+    }
+    .search-input-box .search-icon {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 15px;
+      color: #94a3b8;
+    }
+
+    /* Sort Bar (ABC순 | 최신순) */
+    .sort-bar {
+      display: flex;
+      align-items: center;
+      padding: 8px 16px;
+      font-size: 18px;
+      font-weight: 700;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    .sort-tab {
+      cursor: pointer;
+      color: #94a3b8;
+      user-select: none;
+    }
+    .sort-tab.active {
+      color: #0f172a;
+      font-weight: 900;
+      text-decoration: underline;
+    }
+    .sort-divider {
+      margin: 0 10px;
+      color: #cbd5e1;
+      font-weight: 400;
+    }
+    .sort-count {
+      margin-left: auto;
+      font-size: 13px;
+      color: #64748b;
+      font-weight: 600;
+    }
+
+    /* Table Header */
+    .table-header {
+      display: flex;
+      padding: 10px 16px;
+      border-bottom: 2px solid #0f172a;
+      font-weight: 900;
+      font-size: 15px;
+      background: #ffffff;
+    }
+    .col-word { flex: 3; }
+    .col-pos { flex: 2; }
+    .col-meaning { flex: 4; }
+    .col-date { flex: 2.5; text-align: right; }
+
+    /* Word List Scroll Container */
+    .word-list-scroll {
+      flex: 1;
+      overflow-y: auto;
+    }
+    .word-row {
+      display: flex;
+      padding: 14px 16px;
+      border-bottom: 1px solid #f1f5f9;
+      cursor: pointer;
+      align-items: center;
+      transition: background 0.15s;
+    }
+    .word-row:hover {
+      background: #f8fafc;
+    }
+    .word-row .col-word {
+      font-weight: 700;
+      font-size: 15px;
+      color: #0f172a;
+    }
+    .word-row .col-pos {
+      font-size: 13px;
+      color: #64748b;
+    }
+    .word-row .col-meaning {
+      font-size: 13px;
+      color: #334155;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .word-row .col-date {
+      font-size: 12px;
+      color: #94a3b8;
+    }
+
+    /* Left Drawer / Hamburger Menu (Screen 3) */
+    .drawer-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(15, 23, 42, 0.4);
+      z-index: 50;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .drawer-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .drawer-panel {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 82%;
+      height: 100%;
+      background: #e2e8f0;
+      z-index: 51;
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      padding-top: 36px;
+    }
+    .drawer-panel.open {
+      transform: translateX(0);
+    }
+    .drawer-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px 20px;
+    }
+    .drawer-category-title {
+      font-size: 30px;
+      font-weight: 900;
+      color: #0f172a;
+      letter-spacing: -1px;
+      margin-bottom: 6px;
+    }
+    .drawer-sub-item {
+      font-size: 20px;
+      font-weight: 500;
+      color: #1e293b;
+      padding: 4px 0;
+      cursor: pointer;
+    }
+    .drawer-sub-item.active {
+      font-weight: 800;
+      color: #2563eb;
+    }
+    .drawer-section-space {
+      margin-bottom: 20px;
+    }
+    .drawer-group-box {
+      background: rgba(255,255,255,0.7);
+      border-radius: 8px;
+      padding: 10px 12px;
+      margin-bottom: 8px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 600;
+      font-size: 14px;
+      transition: all 0.2s;
+    }
+    .drawer-group-box:hover, .drawer-group-box.active {
+      background: #ffffff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      font-weight: 800;
+      color: #2563eb;
+    }
+    .drawer-add-btn {
+      margin: 10px 16px;
+      padding: 14px;
+      background: #ffffff;
+      border: 1px solid #94a3b8;
+      border-radius: 6px;
+      font-size: 18px;
+      font-weight: 800;
+      text-align: center;
+      cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .drawer-profile-footer {
+      padding: 14px 20px 24px 20px;
+      border-top: 1px solid #cbd5e1;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .profile-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #0f172a;
+      color: #ffffff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 20px;
+    }
+    .profile-name {
+      font-size: 20px;
+      font-weight: 800;
+      color: #0f172a;
+    }
+
+    /* Screen 4: Word Detail Screen */
+    .detail-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+    }
+    .detail-title {
+      font-size: 34px;
+      font-weight: 900;
+      color: #0f172a;
+      letter-spacing: -0.5px;
+      margin-bottom: 8px;
+    }
+    .detail-pos-meaning {
+      font-size: 16px;
+      font-weight: 700;
+      color: #0f172a;
+      line-height: 1.5;
+      margin-bottom: 24px;
+    }
+    .detail-example-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+    .detail-example-label {
+      font-size: 14px;
+      font-weight: 600;
+      color: #0f172a;
+      line-height: 1.3;
+    }
+    .detail-link-btn {
+      color: #2563eb;
+      font-weight: 700;
+      font-size: 14px;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .detail-link-btn:hover {
+      text-decoration: underline;
+    }
+    .detail-image-card {
+      width: 100%;
+      height: 120px;
+      background: #e2e8f0;
+      border-radius: 6px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    .detail-image-title {
+      font-size: 20px;
+      font-weight: 900;
+      color: #0f172a;
+      margin-bottom: 4px;
+    }
+
+    /* Detail Footer Nav */
+    .detail-footer-nav {
+      padding: 10px 16px 24px 16px;
+      border-top: 1px solid #e2e8f0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #ffffff;
+    }
+    .nav-btn {
+      padding: 8px 14px;
+      background: #f1f5f9;
+      border: none;
+      border-radius: 6px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 13px;
+    }
+
+    /* Modal for Add Word */
+    .modal-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 100;
+      display: none;
+      justify-content: center;
+      align-items: center;
+    }
+    .modal-overlay.active {
+      display: flex;
+    }
+    .modal-card {
+      background: #ffffff;
+      width: 88%;
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+    }
+    .modal-title {
+      font-size: 18px;
+      font-weight: 800;
+      margin-bottom: 14px;
+    }
+    .modal-input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      font-size: 13px;
+    }
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .modal-btn {
+      padding: 8px 14px;
+      border-radius: 6px;
+      border: none;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 13px;
+    }
+    .btn-primary {
+      background: #2563eb;
+      color: #ffffff;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="phone-wrapper">
+    <div class="device-screen">
+      <!-- Dynamic Island Notch -->
+      <div class="dynamic-island">
+        <div class="camera-lens"></div>
+      </div>
+
+      <!-- Status Bar -->
+      <div class="status-bar">
+        <span>9:41</span>
+        <span>TEPS VOCA</span>
+      </div>
+
+      <!-- SCREEN 1: SPLASH SCREEN -->
+      <div id="splash-screen" class="screen active">
+        <div class="splash-logo-box">
+          <img src="../assets/logo/로고만.png" alt="Logo" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'80\' height=\'80\'><rect width=\'80\' height=\'80\' fill=\'%23cbd5e1\'/><text x=\'50%\' y=\'55%\' font-size=\'20\' font-weight=\'bold\' text-anchor=\'middle\' fill=\'%230f172a\'>로고</text></svg>'">
+        </div>
+        <div class="splash-title">TEPS VOCA</div>
+        <div class="splash-subtitle">TEPS 필수 어휘 학습 서비스</div>
+      </div>
+
+      <!-- SCREEN 2: WORD LIST SCREEN -->
+      <div id="list-screen" class="screen">
+        <div class="app-header">
+          <button class="header-btn" onclick="toggleDrawer(true)">☰</button>
+          <div class="header-logo-container">
+            <img src="../assets/logo/로고만.png" alt="로고" onerror="this.replaceWith('로고')">
+          </div>
+          <div style="width:40px;"></div>
+        </div>
+
+        <div class="filter-bar">
+          <div class="search-input-box">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="search-input" placeholder="단어 또는 뜻 검색..." oninput="handleSearch(this.value)">
+          </div>
+        </div>
+
+        <div class="sort-bar">
+          <span id="tab-abc" class="sort-tab active" onclick="setSortMode('abc')">ABC순</span>
+          <span class="sort-divider">|</span>
+          <span id="tab-latest" class="sort-tab" onclick="setSortMode('latest')">최신순</span>
+          <span class="sort-count" id="total-count-label">총 0개</span>
+        </div>
+
+        <div class="table-header">
+          <div class="col-word">영어 단어</div>
+          <div class="col-pos">품사</div>
+          <div class="col-meaning">한글 뜻</div>
+          <div class="col-date">추가일</div>
+        </div>
+
+        <div class="word-list-scroll" id="word-list-container">
+          <!-- Dynamic list rows -->
+        </div>
+      </div>
+
+      <!-- SCREEN 4: WORD DETAIL SCREEN -->
+      <div id="detail-screen" class="screen">
+        <div class="app-header">
+          <button class="header-btn" onclick="showScreen('list-screen')">❮</button>
+          <div class="header-logo-container">
+            <img src="../assets/logo/로고만.png" alt="로고">
+          </div>
+          <div style="width:40px;"></div>
+        </div>
+
+        <div class="detail-body">
+          <div class="detail-title" id="detail-word-title">public</div>
+          <div class="detail-pos-meaning" id="detail-pos-meaning-box">
+            형용사 | 명사 | 공중의 | 공중
+          </div>
+
+          <div style="margin-top: 18px;">
+            <div class="detail-example-row">
+              <div class="detail-example-label">영어 예문1<br>(예문 한글 뜻)</div>
+              <a class="detail-link-btn" id="naver-ex-1" target="_blank">네이버 예문 #1</a>
+            </div>
+            <div class="detail-example-row">
+              <div class="detail-example-label">영어 예문2<br>(예문 한글 뜻)</div>
+              <a class="detail-link-btn" id="naver-ex-2" target="_blank">네이버 예문 #2</a>
+            </div>
+            <div class="detail-example-row">
+              <div class="detail-example-label">영어 예문3<br>(예문 한글 뜻)</div>
+              <a class="detail-link-btn" id="naver-ex-3" target="_blank">네이버 예문 #3</a>
+            </div>
+          </div>
+
+          <div style="margin-top: 24px;">
+            <div class="detail-image-card">
+              <div class="detail-image-title">관련 이미지#1</div>
+              <a class="detail-link-btn" id="google-img-1" target="_blank">구글 검색 이미지 #1</a>
+            </div>
+            <div class="detail-image-card">
+              <div class="detail-image-title">관련 이미지#2</div>
+              <a class="detail-link-btn" id="google-img-2" target="_blank">구글 검색 이미지 #2</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="detail-footer-nav">
+          <button class="nav-btn" onclick="navigateDetail(-1)">이전 단어</button>
+          <span id="detail-page-num" style="font-weight: 700; font-size: 13px;">1 / 100</span>
+          <button class="nav-btn" onclick="navigateDetail(1)">다음 단어</button>
+        </div>
+      </div>
+
+      <!-- DRAWER / LEFT HAMBURGER MENU (Screen 3) -->
+      <div class="drawer-overlay" id="drawer-overlay" onclick="toggleDrawer(false)">
+        <div class="drawer-panel" id="drawer-panel" onclick="event.stopPropagation()">
+          <div class="drawer-content">
+            <!-- 단어 -->
+            <div class="drawer-category-title">단어</div>
+            <div class="drawer-sub-item active" onclick="selectViewMode('words')">단어장</div>
+            <div class="drawer-sub-item" onclick="selectViewMode('quiz')">단어테스트</div>
+            
+            <div class="drawer-section-space"></div>
+
+            <!-- 숙어 -->
+            <div class="drawer-category-title">숙어</div>
+            <div class="drawer-sub-item" onclick="selectGroup('숙어')">단어장</div>
+            <div class="drawer-sub-item" onclick="selectViewMode('quiz')">단어테스트</div>
+
+            <div class="drawer-section-space"></div>
+            <hr style="border: 0; border-top: 1px solid #cbd5e1; margin-bottom: 14px;">
+
+            <!-- Excel Word Groups -->
+            <div style="font-size:16px; font-weight:900; margin-bottom:8px;">단어 그룹</div>
+            <div class="drawer-group-box active" id="grp-all" onclick="selectGroup('ALL')">
+              <span>📌 전체 보기</span>
+              <span id="badge-all">1176개</span>
+            </div>
+            <div class="drawer-group-box" id="grp-248" onclick="selectGroup('248')">
+              <span>📌 선별 영어단어 248개</span>
+              <span id="badge-248">249개</span>
+            </div>
+            <div class="drawer-group-box" id="grp-900" onclick="selectGroup('900')">
+              <span>📌 영어단어 900개 (387점용)</span>
+              <span id="badge-900">927개</span>
+            </div>
+          </div>
+
+          <div class="drawer-add-btn" onclick="openAddModal()">목록 추가하기</div>
+
+          <div class="drawer-profile-footer">
+            <div class="profile-avatar">👤</div>
+            <div class="profile-name">홍길동</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ADD WORD MODAL -->
+      <div class="modal-overlay" id="add-modal">
+        <div class="modal-card">
+          <div class="modal-title">목록 추가하기</div>
+          <input type="text" id="add-word-input" class="modal-input" placeholder="영어 단어 (예: public)">
+          <input type="text" id="add-pos-input" class="modal-input" placeholder="품사 (예: 형용사)">
+          <input type="text" id="add-meaning-input" class="modal-input" placeholder="한글 뜻 (예: 대중의)">
+          <div class="modal-actions">
+            <button class="modal-btn" onclick="closeAddModal()">취소</button>
+            <button class="modal-btn btn-primary" onclick="handleAddWord()">추가하기</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Home Indicator Line -->
+      <div class="home-indicator"></div>
+    </div>
+  </div>
+
+  <script>
+    let vocaData = { group_248: [], group_900: [] };
+    let allWords = [];
+    let currentFiltered = [];
+    let currentGroup = 'ALL';
+    let currentSort = 'abc';
+    let searchQuery = '';
+    let selectedWordIndex = 0;
+
+    // Load JSON data
+    fetch('../assets/data/teps_voca_data.json')
+      .then(res => res.json())
+      .then(data => {
+        vocaData = data;
+        initData();
+      })
+      .catch(() => {
+        vocaData = {
+          group_248: [
+            { num: 1, word: 'reputation', details: [{ pos: '명사', meaning: '평판, 명성' }], dateAdded: '26.03.30' },
+            { num: 2, word: 'genetic', details: [{ pos: '형용사', meaning: '유전의' }], dateAdded: '26.03.30' }
+          ],
+          group_900: [
+            { num: 1, word: 'public', details: [{ pos: '형용사', meaning: '대중의' }, { pos: '명사', meaning: '대중' }], dateAdded: '26.03.30' },
+            { num: 2, word: 'likely', details: [{ pos: '형용사', meaning: '~할 것 같은' }], dateAdded: '26.03.30' }
+          ]
+        };
+        initData();
+      });
+
+    // Splash timer
+    setTimeout(() => {
+      showScreen('list-screen');
+    }, 1800);
+
+    function initData() {
+      const g248 = vocaData.group_248.map(w => ({ ...w, group: '248', dateAdded: w.dateAdded || '26.03.30' }));
+      const g900 = vocaData.group_900.map(w => ({ ...w, group: '900', dateAdded: w.dateAdded || '26.03.30' }));
+
+      document.getElementById('badge-248').innerText = g248.length + '개';
+      document.getElementById('badge-900').innerText = g900.length + '개';
+
+      const combinedMap = new Map();
+      g248.forEach(w => combinedMap.set(w.word.toLowerCase(), w));
+      g900.forEach(w => {
+        if (!combinedMap.has(w.word.toLowerCase())) {
+          combinedMap.set(w.word.toLowerCase(), w);
+        }
+      });
+      allWords = Array.from(combinedMap.values());
+      document.getElementById('badge-all').innerText = allWords.length + '개';
+
+      renderWordList();
+    }
+
+    function renderWordList() {
+      let list = [];
+      if (currentGroup === '248') {
+        list = vocaData.group_248;
+      } else if (currentGroup === '900') {
+        list = vocaData.group_900;
+      } else {
+        list = allWords;
+      }
+
+      if (searchQuery.trim()) {
+        const q = searchQuery.trim().toLowerCase();
+        list = list.filter(w => w.word.toLowerCase().includes(q) || w.details.some(d => d.meaning.includes(q)));
+      }
+
+      if (currentSort === 'abc') {
+        list.sort((a, b) => a.word.toLowerCase().localeCompare(b.word.toLowerCase()));
+      } else {
+        list.sort((a, b) => (a.num || 0) - (b.num || 0));
+      }
+
+      currentFiltered = list;
+      document.getElementById('total-count-label').innerText = `총 ${list.length}개`;
+
+      const container = document.getElementById('word-list-container');
+      container.innerHTML = '';
+
+      list.forEach((item, idx) => {
+        const posStr = item.details && item.details.length > 0 ? item.details[0].pos : '';
+        const meaningStr = item.details ? item.details.map(d => d.meaning).join(', ') : '';
+        const dateStr = item.dateAdded || '26.03.30';
+
+        const row = document.createElement('div');
+        row.className = 'word-row';
+        row.onclick = () => openDetail(idx);
+        row.innerHTML = `
+          <div class="col-word">${item.word}</div>
+          <div class="col-pos">${posStr}</div>
+          <div class="col-meaning">${meaningStr}</div>
+          <div class="col-date">${dateStr}</div>
+        `;
+        container.appendChild(row);
+      });
+    }
+
+    function showScreen(screenId) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.getElementById(screenId).classList.add('active');
+    }
+
+    function toggleDrawer(open) {
+      const overlay = document.getElementById('drawer-overlay');
+      const panel = document.getElementById('drawer-panel');
+      if (open) {
+        overlay.classList.add('open');
+        panel.classList.add('open');
+      } else {
+        overlay.classList.remove('open');
+        panel.classList.remove('open');
+      }
+    }
+
+    function selectGroup(grp) {
+      currentGroup = grp;
+      document.querySelectorAll('.drawer-group-box').forEach(b => b.classList.remove('active'));
+      if (grp === '248') document.getElementById('grp-248').classList.add('active');
+      else if (grp === '900') document.getElementById('grp-900').classList.add('active');
+      else document.getElementById('grp-all').classList.add('active');
+
+      toggleDrawer(false);
+      renderWordList();
+    }
+
+    function setSortMode(mode) {
+      currentSort = mode;
+      document.getElementById('tab-abc').classList.toggle('active', mode === 'abc');
+      document.getElementById('tab-latest').classList.toggle('active', mode === 'latest');
+      renderWordList();
+    }
+
+    function handleSearch(val) {
+      searchQuery = val;
+      renderWordList();
+    }
+
+    function openDetail(index) {
+      selectedWordIndex = index;
+      updateDetailView();
+      showScreen('detail-screen');
+    }
+
+    function updateDetailView() {
+      if (!currentFiltered[selectedWordIndex]) return;
+      const word = currentFiltered[selectedWordIndex];
+
+      document.getElementById('detail-word-title').innerText = word.word;
+
+      let posMeaningParts = [];
+      if (word.details) {
+        word.details.forEach(d => { if (d.pos) posMeaningParts.push(d.pos); });
+        word.details.forEach(d => { if (d.meaning) posMeaningParts.push(d.meaning); });
+      }
+      document.getElementById('detail-pos-meaning-box').innerText = posMeaningParts.join(' | ');
+
+      document.getElementById('naver-ex-1').href = `https://en.dict.naver.com/#/search?query=${encodeURIComponent(word.word + ' example')}`;
+      document.getElementById('naver-ex-2').href = `https://en.dict.naver.com/#/search?query=${encodeURIComponent(word.word + ' sentence')}`;
+      document.getElementById('naver-ex-3').href = `https://en.dict.naver.com/#/search?query=${encodeURIComponent(word.word)}`;
+
+      document.getElementById('google-img-1').href = `https://www.google.com/search?tbm=isch&q=${encodeURIComponent(word.word)}`;
+      document.getElementById('google-img-2').href = `https://www.google.com/search?tbm=isch&q=${encodeURIComponent(word.word + ' visual')}`;
+
+      document.getElementById('detail-page-num').innerText = `${selectedWordIndex + 1} / ${currentFiltered.length}`;
+    }
+
+    function navigateDetail(dir) {
+      const nextIdx = selectedWordIndex + dir;
+      if (nextIdx >= 0 && nextIdx < currentFiltered.length) {
+        selectedWordIndex = nextIdx;
+        updateDetailView();
+      }
+    }
+
+    function openAddModal() {
+      toggleDrawer(false);
+      document.getElementById('add-modal').classList.add('active');
+    }
+    function closeAddModal() {
+      document.getElementById('add-modal').classList.remove('active');
+    }
+    function handleAddWord() {
+      const w = document.getElementById('add-word-input').value.trim();
+      const p = document.getElementById('add-pos-input').value.trim() || '명사';
+      const m = document.getElementById('add-meaning-input').value.trim();
+
+      if (!w || !m) {
+        alert('영어 단어와 한글 뜻을 입력하세요.');
+        return;
+      }
+
+      const now = new Date();
+      const dateStr = `${String(now.getFullYear()).slice(2)}.${String(now.getMonth()+1).padStart(2,'0')}.${String(now.getDate()).padStart(2,'0')}`;
+
+      const newObj = {
+        num: 0,
+        word: w,
+        details: [{ pos: p, meaning: m }],
+        dateAdded: dateStr,
+        group: 'custom'
+      };
+
+      allWords.unshift(newObj);
+      closeAddModal();
+      renderWordList();
+      alert(`단어 "${w}" 이(가) 추가되었습니다.`);
+    }
+  </script>
+</body>
+</html>
