@@ -1,68 +1,103 @@
-# 📚 TEPS VOCA - 플러터 영어 단어장 앱
+# 📚 TEPS VOCA v2 (Next.js 마이그레이션 프로젝트)
 
-TEPS(Test of English Proficiency developed by Seoul National University) 시험 대비를 위한 **모바일 영어 단어장 플러터(Flutter) 애플리케이션** 프로젝트입니다.
-
----
-
-## 📱 주요 기능 (Key Features)
-
-1. **와이어프레임(WireFrame) 기반 모바일 UI**
-   - iPhone 16 Pro 규격에 맞춘 깔끔하고 직관적인 모바일 레이아웃
-   - **스플래시 화면**: 공식 로고 인트로 연출
-   - **단어 목록 화면**: `ABC순` | `최신순` 정렬, 실시간 키워드/뜻 검색, 북마크 기능
-   - **햄버거 메뉴 (좌측 서랍)**:
-     - 📌 **전체 보기** (1,176개 단어)
-     - 📌 **선별 영어단어 248개**
-     - 📌 **영어단어 900개 (387점용)**
-     - 💡 **목록 추가하기**: 사용자 정의 단어 등록
-     - 👤 **프로필 헤더**
-   - **단어 상세 화면**:
-     - 대형 단어 텍스트 및 품사/뜻 파이프(`|`) 구분선 표시
-     - **네이버 사전 예문링크 (1, 2, 3)** 바로가기
-     - **구글 이미지 검색링크 (1, 2)** 바로가기
-     - 이전 단어 / 다음 단어 탐색 기능
-   - **단어 테스트 (퀴즈/플래시카드)**: 터치하여 정답 확인 및 자율 학습 모드
+기존 플러터(Flutter) 기반의 **TEPS 모바일 영어 단어장 앱**을 최신 **Next.js 16 (App Router) + TypeScript + Tailwind CSS** 스택으로 완벽하게 마이그레이션한 프로젝트입니다.
 
 ---
 
-## 📁 프로젝트 구조
+## 🚀 빠른 시작 (Quick Start)
+
+### 1. 개발 서버 실행 (Port 3000)
+```bash
+npm run dev
+# 또는
+npm run dev -- -p 3000
+```
+브라우저 접속: [http://localhost:3000](http://localhost:3000)
+
+### 2. 프로덕션 빌드 및 실행
+```bash
+npm run build
+npm run start
+```
+
+---
+
+## 📱 주요 구현 기능 (Features)
+
+1. **iPhone 16 Pro 와이어프레임 & 반응형 듀얼 모드**
+   - 상단 헤더 우측 토글 또는 플로팅 바로 **iPhone 16 Pro 목업 프레임 (393 × 852, Dynamic Island)**과 **전체화면 반응형 모드** 자유롭게 전환 가능.
+   - iOS 하단 홈 인디케이터 및 물리 버튼 외형 완벽 재현.
+
+2. **스플래시 인트로 (Splash Screen)**
+   - 공식 로고 및 타이틀 연출, 부드러운 페이드인 후 메인 화면 진입.
+
+3. **단어 목록 화면 (Word List)**
+   - **실시간 검색**: 영어 단어 및 한글 뜻 동시 검색.
+   - **정렬**: `ABC순` | `최신순` 정렬 지원.
+   - **필터링**: 북마크 필터링 버튼 제공.
+   - **테이블 헤더 & 리스트**: `영어 단어 | 품사 | 한글 뜻 | 추가일` 컬럼 구성.
+   - 원클릭 북마크 토글 및 단어 클릭 시 상세 화면 이동.
+
+4. **단어 상세 화면 (Word Detail)**
+   - 대형 표제어 텍스트 및 품사/한글 뜻 구분 표시 (`|`).
+   - **외부 연동**:
+     - 네이버 영어사전 예문 검색 링크 (#1, #2, #3).
+     - 구글 이미지 검색 링크 (#1, #2).
+   - 하단 [이전 단어] / [다음 단어] 페이지 네비게이션.
+
+5. **단어 테스트 / 퀴즈 모드 (Flashcards)**
+   - 햄버거 서랍 메뉴에서 언제든지 접근 가능.
+   - 카드 터치 시 정답(품사, 한글 뜻) 반전 노출.
+   - [이전] / [다음 단어] 자율 학습 모드.
+
+6. **좌측 햄버거 서랍 메뉴 (Drawer Menu)**
+   - **단어**: 단어장 / 단어테스트
+   - **숙어**: 단어장 / 단어테스트
+   - **단어 그룹 선택**:
+     - 전체 보기 (1,176개)
+     - 선별 영어단어 248개 (248개)
+     - 영어단어 900개 (387점용) (900개)
+   - **목록 추가하기**: 사용자 정의 단어 등록 팝업.
+   - **사용자 프로필**: 홍길동 프로필 헤더.
+
+7. **데이터 영속성 (LocalStorage Persistence)**
+   - 북마크 상태 및 사용자 추가 단어가 브라우저 로컬 스토리지에 영구 보존됩니다.
+
+---
+
+## 📁 디렉터리 구조
 
 ```text
-TEPS VOCA/
-├── Logo/                       # 로고 이미지 자산
-│   ├── 로고만.png
-│   ├── 로고_가로.png
-│   └── 로고_세로.png
-├── TEPS 선별 영어 단어 248개.xlsx # 원본 엑셀 단어장 1
-├── TEPS 영어 단어 900개(387점용).xlsx # 원본 엑셀 단어장 2
-├── WireFrame_v1.png            # 설계 와이어프레임 이미지
-├── teps_voca_data.json         # 변환된 JSON 데이터
-└── TEPS_Voca_v1/               # 플러터 프로젝트 메인
-    ├── pubspec.yaml            # 패키지 및 에셋 설정
-    ├── assets/                 # 로고 및 JSON 에셋
-    ├── lib/                    # Flutter Dart 소스코드
-    │   ├── main.dart           # 앱 엔트리포인트
-    │   ├── models/             # 단어 데이터 모델
-    │   ├── providers/          # 상태 관리 (Provider)
-    │   ├── screens/            # 앱 화면 (스플래시, 목록, 상세, 퀴즈, 추가)
-    │   └── widgets/            # 공통 위젯 (Header, Drawer)
-    └── web/                    # 웹 프리뷰 실행기
-```
-
----
-
-## 🚀 실행 방법 (How to Run)
-
-### 1. Flutter 앱 실행 (모바일/데스크톱)
-```bash
-cd TEPS_Voca_v1
-flutter pub get
-flutter run
-```
-
-### 2. 웹 브라우저 로컬 서버 실행
-```bash
-cd TEPS_Voca_v1
-python -m http.server 8080
-# 브라우저 접속: http://localhost:8080/web/index.html
+TEPS_Voca_v2/
+├── public/
+│   ├── data/
+│   │   └── teps_voca_data.json       # 원본 1,176개 어휘 데이터
+│   └── logo/
+│       ├── logo_only.png             # 공식 로고 (단독)
+│       ├── logo_horizontal.png       # 가로형 로고
+│       └── logo_vertical.png         # 세로형 로고
+├── src/
+│   ├── app/
+│   │   ├── globals.css               # Tailwind CSS 및 기본 스타일
+│   │   ├── layout.tsx                # 루트 레이아웃 & 메타데이터
+│   │   └── page.tsx                  # 메인 페이지 및 화면 라우팅
+│   ├── components/
+│   │   ├── AppHeader.tsx             # 상단 헤더 (로고, 햄버거, 모드 토글)
+│   │   ├── DrawerMenu.tsx            # 좌측 슬라이드 서랍 메뉴
+│   │   ├── WordListScreen.tsx        # 단어 목록 화면 (검색/정렬/테이블)
+│   │   ├── WordDetailScreen.tsx      # 단어 상세 화면 (사전/이미지 링크)
+│   │   ├── QuizScreen.tsx            # 단어 테스트 플래시카드 화면
+│   │   ├── AddWordModal.tsx          # 단어 추가 모달
+│   │   ├── SplashScreen.tsx          # 스플래시 인트로 화면
+│   │   └── PhoneFrame.tsx            # iPhone 16 Pro 목업 프레임
+│   ├── context/
+│   │   └── VocaContext.tsx           # 상태 관리 Context & Provider
+│   ├── data/
+│   │   └── teps_voca_data.json       # 정적 데이터 원본
+│   └── types/
+│       └── voca.ts                   # TypeScript 타입 정의
+├── package.json
+├── tsconfig.json
+├── postcss.config.mjs
+└── next.config.mjs
 ```
