@@ -1,21 +1,21 @@
-# Miscellaneous
-*.log
-*.sql
-*.sqlite
-*.tmp
-*.temp
+# ==========================================
+# Node / Next.js
+# ==========================================
+**/node_modules/
+**/.next/
+**/out/
+**/.pnp
+.pnp.*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.tsbuildinfo
+.vercel
 
-# OS generated files
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
-desktop.ini
-
+# ==========================================
 # Flutter / Dart build artifacts
+# ==========================================
 **/build/
 **/.dart_tool/
 **/.pub-cache/
@@ -25,13 +25,59 @@ desktop.ini
 **/.flutter-plugins-dependencies
 **/pubspec.lock
 
+# ==========================================
+# Python artifacts
+# ==========================================
+**/__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+**/.venv/
+**/env/
+**/venv/
+
+# ==========================================
+# Office / Excel temporary files
+# ==========================================
+~$*.xlsx
+~$*.xls
+
+# ==========================================
+# OS generated files
+# ==========================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# ==========================================
 # IDE files
+# ==========================================
 **/.idea/
-**/.vscode/
+**/.vscode/*
+!**/.vscode/settings.json
+!**/.vscode/extensions.json
 *.iml
 *.ipr
 *.iws
+*.swp
+*.swo
 
-# Sensitive & Local files
+# ==========================================
+# Sensitive & Environment files
+# ==========================================
 *.env
+*.env.*
 *.env.local
+
+# ==========================================
+# Temporary & Log files
+# ==========================================
+*.log
+*.tmp
+*.temp
